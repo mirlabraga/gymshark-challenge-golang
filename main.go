@@ -9,7 +9,7 @@ import (
 )
 
 func getOrders(c echo.Context) error {
-	packages := services.Calculation()
+	packages := services.Calculation(250)
 	return c.JSON(http.StatusCreated, packages)
 }
 
