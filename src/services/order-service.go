@@ -7,7 +7,7 @@ import (
 	"github.com/mirlabraga/gymshark-challenge-golang/src/models"
 )
 
-var packages []int = []int{250, 500}
+var packages []int = []int{250, 500, 1000, 2000, 5000}
 
 func Calculation(pack int) (items []models.Item) {
 
@@ -18,8 +18,8 @@ func Calculation(pack int) (items []models.Item) {
 	}
 
 	items = Decomposition(pack)
-	items = reducePackages(items)
-	return
+	items = ReducePackages(items)
+	return items
 }
 
 func Decomposition(pack int) (items []models.Item) {
@@ -48,19 +48,22 @@ func Decomposition(pack int) (items []models.Item) {
 
 			var item = models.Item{Quantity: quantity, Package: maxValueBeforeWaste}
 			items = append(items, item)
-			//return items
 
 			if waste < maxValueBeforeWaste {
 				break
 			}
-			waste = waste % maxValueBeforeWaste
+			waste = int(waste % maxValueBeforeWaste)
 		}
 	}
 
-	return
+	return items
 }
 
-func reducePackages(items []models.Item) (result []models.Item) {
+func ReducePackages(items []models.Item) (result []models.Item) {
+
+	if len(items) == 1 {
+		return items
+	}
 
 	sort.Slice(items, func(i, j int) bool {
 		return items[i].Package < items[j].Package
@@ -68,24 +71,19 @@ func reducePackages(items []models.Item) (result []models.Item) {
 
 	var i int = 0
 	for i < len(items)-1 {
-		var sum = items[i].Package + items[i+1].Package
+		var sum int = int(items[i].Package + items[i+1].Package)
 		if contains(sum) {
 			items = append(items[:i], items[i+1:]...)
 			items = append(items[:i], items[i+1:]...)
 			var item = models.Item{Quantity: 1, Package: sum}
-			result = []models.Item{item}
+			items = append(items, item)
 			i = 0
 		} else {
-			break
+			return items
 		}
 	}
 
-	return
-}
-
-func RemoveIndex(s []models.Item, index int) []models.Item {
-	print(s)
-	return append(s[:index], s[index+1:]...)
+	return items
 }
 
 func contains(element int) bool {
@@ -98,12 +96,15 @@ func contains(element int) bool {
 }
 
 func getMaxValueBefore(pack int) (maxValueMinPack int) {
-	var i int = 0
-	maxValueMinPack = packages[0]
 
-	for pack >= packages[i] {
-		maxValueMinPack = packages[i]
-		i++
+	maxValueMinPack = packages[0]
+	for i := 0; i < len(packages); i++ {
+
+		if pack >= packages[i] {
+			maxValueMinPack = packages[i]
+		} else {
+			break
+		}
 	}
 	return
 }
