@@ -5,11 +5,19 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/mirlabraga/gymshark-challenge-golang/src/models"
 	"github.com/mirlabraga/gymshark-challenge-golang/src/services"
 )
 
 func getOrders(c echo.Context) error {
-	packages := services.Calculation(250)
+
+	order := &models.Order{}
+
+	if err := c.Bind(order); err != nil {
+		return err
+	}
+
+	packages := services.Calculation(order.Quantity)
 	return c.JSON(http.StatusCreated, packages)
 }
 
