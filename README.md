@@ -15,6 +15,11 @@ is less than 0;
 4 - Afther step 3, the resuld should be reduce que result just
 with element inside the array.
 
+# Improvement
+
+*** Get better peformance algoritm -> To do the reduce together step 3, can you refactore for me, pls?! 🤓 ***
+
+
 # Run Application
 
 `$ go run main.go`
