@@ -17,7 +17,7 @@ with element inside the array.
 
 # Improvement
 
-*** Get better peformance algoritm -> To do the reduce together step 3, can you refactore for me, pls?! 🤓 ***
+*** Get better peformance algoritm -> To do the step 3 inside the step 4 - can you refactore for me, pls?! 🤓 ***
 
 
 # Run Application
